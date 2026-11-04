@@ -25,6 +25,21 @@ export const RegisterPage = () => {
       Alert.alert("Contraseña débil", "Mínimo 8 caracteres.");
       return;
     }
+    if (!/[A-ZÁÉÍÓÚÜÑ]/.test(password)) {
+        Alert.alert(
+            "Contraseña débil",
+            "La contraseña debe contener al menos una letra mayúscula."
+        );
+        return;
+    }
+
+    if (!/[^A-Za-z0-9ÁÉÍÓÚÜÑáéíóúüñ]/.test(password)) {
+        Alert.alert(
+            "Contraseña débil",
+            "La contraseña debe contener al menos un carácter especial."
+        );
+        return;
+    }
     if (password !== confirm) {
       Alert.alert("Error", "Las contraseñas no coinciden.");
       return;
@@ -75,7 +90,13 @@ export const RegisterPage = () => {
               placeholder="tu@correo.com" />
             <Input label="Contraseña" value={password}
               onChangeText={setPassword} secureTextEntry
-              placeholder="Mínimo 8 caracteres" />
+              placeholder="Ingresa una contraseña segura" />
+            <Text style={styles.passwordInfo}>
+                La contraseña debe contener:
+                {"\n"}• Mínimo 8 caracteres.
+                {"\n"}• Al menos una letra mayúscula.
+                {"\n"}• Al menos un carácter especial (ejemplo: @, #, !).
+            </Text>
             <Input label="Confirmar contraseña" value={confirm}
               onChangeText={setConfirm} secureTextEntry
               placeholder="Repite tu contraseña" />
@@ -121,4 +142,10 @@ const styles = StyleSheet.create({
                       color: theme.colors.primary, marginBottom:16 },
   successText:      { fontSize:16, color: theme.colors.textMid,
                       textAlign:"center", lineHeight:24, marginBottom:32 },
-});
+    passwordInfo: {
+    fontSize: 12,
+    color: theme.colors.textMuted,
+    lineHeight: 19,
+    marginTop: -10,
+    },
+                    });

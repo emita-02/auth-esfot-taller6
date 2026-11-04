@@ -112,126 +112,6 @@ Docs: https://docs.expo.dev/eas/index.md
 
 
 ================================================
-ðŸ“„ ARCHIVO: app\auth\forgot-password.tsx
-================================================
-
-import { ForgotPasswordPage } from "@/pages/forgot-password/ui/ForgotPasswordPage";
- 
-export default ForgotPasswordPage;
-
-
-================================================
-ðŸ“„ ARCHIVO: app\auth\login.tsx
-================================================
-
-import { LoginPage } from "@/pages/login/ui/LoginPage";
- 
-export default LoginPage;
-
-
-================================================
-ðŸ“„ ARCHIVO: app\auth\register.tsx
-================================================
-
-import { RegisterPage } from "@/pages/register/ui/RegisterPage";
- 
-export default RegisterPage;
-
-
-================================================
-ðŸ“„ ARCHIVO: app\auth\_layout.tsx
-================================================
-
-import { Stack } from "expo-router";
- 
-// Layout para las rutas del grupo (auth).
-// Todas las pantallas de auth comparten este stack sin header.
-export default function AuthLayout() {
-  return (
-    <Stack screenOptions={{ headerShown: false, animation: "fade" }} />
-  );
-}
-
-
-================================================
-ðŸ“„ ARCHIVO: app\home.tsx
-================================================
-
-import { HomePage } from "@/pages/home/ui/HomePage";
- 
-export default HomePage;
-
-
-================================================
-ðŸ“„ ARCHIVO: app\index.tsx
-================================================
-
-import { View, ActivityIndicator, StyleSheet } from "react-native";
- 
-// Esta pantalla se muestra brevemente mientras AuthGuard
-// en _layout.tsx determina si el usuario tiene sesión.
-export default function IndexScreen() {
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color="#1B3A6B" />
-    </View>
-  );
-}
- 
-const styles = StyleSheet.create({
-  container: { flex:1, justifyContent:"center",
-               alignItems:"center", backgroundColor:"#F0F4FF" },
-});
-
-
-================================================
-ðŸ“„ ARCHIVO: app\_layout.tsx
-================================================
-
-import { useEffect } from "react";
-import { Stack }     from "expo-router";
-import { router }    from "expo-router";
-import { QueryProvider } from "@/core/providers/QueryProvider";
-import { useSession }    from "@/features/session/model/useSession";
- 
-// Componente interno que maneja la redirección basada en auth.
-// Está dentro de QueryProvider para poder usar useSession.
-function AuthGuard() {
-  const { isAuthenticated, isLoading } = useSession();
- 
-  useEffect(() => {
-    if (isLoading) return; // Esperar a que se cargue la sesión
- 
-    if (isAuthenticated) {
-      // Usuario autenticado → ir a la pantalla principal
-      router.replace("/home");
-    } else {
-      // Sin sesión → ir al login
-      router.replace("/(auth)/login");
-    }
-  }, [isAuthenticated, isLoading]);
- 
-  return null; // Este componente no renderiza nada, solo navega
-}
- 
-export default function RootLayout() {
-  return (
-    <QueryProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        {/* Grupo de rutas de autenticación */}
-        <Stack.Screen name="(auth)" />
-        {/* Pantalla principal */}
-        <Stack.Screen name="home"  />
-        {/* Ruta índice: solo redirige, no muestra nada */}
-        <Stack.Screen name="index" />
-      </Stack>
-      <AuthGuard />
-    </QueryProvider>
-  );
-}
-
-
-================================================
 ðŸ“„ ARCHIVO: app.json
 ================================================
 
@@ -1339,43 +1219,123 @@ rl.question(
 
 
 ================================================
-ðŸ“„ ARCHIVO: src\app\styles\theme.ts
+ðŸ“„ ARCHIVO: src\app\(auth)\forgot-password.tsx
 ================================================
 
-// Token de diseño centralizado.
-// Importar desde aquí en todos los StyleSheet.create()
-export const theme = {
-  colors: {
-    primary:     "#1B3A6B",
-    primaryDark: "#142D54",
-    accent:      "#2563EB",
-    success:     "#059669",
-    danger:      "#DC2626",
-    warning:     "#D97706",
-    bg:          "#F0F4FF",
-    card:        "#FFFFFF",
-    text:        "#0F172A",
-    textMid:     "#334155",
-    textMuted:   "#64748B",
-    border:      "#CBD5E1",
-    inputBg:     "#F8FAFC",
-  },
-  radius: {
-    sm: 8, md: 12, lg: 16, xl: 20, full: 9999,
-  },
-  spacing: {
-    xs:4, sm:8, md:16, lg:24, xl:32,
-  },
-  shadow: {
-    card: {
-      shadowColor: "#1B3A6B",
-      shadowOpacity: 0.12,
-      shadowRadius: 20,
-      shadowOffset: { width:0, height:8 },
-      elevation: 8,
-    },
-  },
-};
+import { ForgotPasswordPage } from "@/pages/forgot-password/ui/ForgotPasswordPage";
+ 
+export default ForgotPasswordPage;
+
+
+================================================
+ðŸ“„ ARCHIVO: src\app\(auth)\login.tsx
+================================================
+
+import { LoginPage } from "@/pages/login/ui/LoginPage";
+ 
+export default LoginPage;
+
+
+================================================
+ðŸ“„ ARCHIVO: src\app\(auth)\register.tsx
+================================================
+
+import { RegisterPage } from "@/pages/register/ui/RegisterPage";
+ 
+export default RegisterPage;
+
+
+================================================
+ðŸ“„ ARCHIVO: src\app\(auth)\_layout.tsx
+================================================
+
+import { Stack } from "expo-router";
+ 
+// Layout para las rutas del grupo (auth).
+// Todas las pantallas de auth comparten este stack sin header.
+export default function AuthLayout() {
+  return (
+    <Stack screenOptions={{ headerShown: false, animation: "fade" }} />
+  );
+}
+
+
+================================================
+ðŸ“„ ARCHIVO: src\app\home.tsx
+================================================
+
+import { HomePage } from "@/pages/home/ui/HomePage";
+ 
+export default HomePage;
+
+
+================================================
+ðŸ“„ ARCHIVO: src\app\index.tsx
+================================================
+
+import { View, ActivityIndicator, StyleSheet } from "react-native";
+ 
+// Esta pantalla se muestra brevemente mientras AuthGuard
+// en _layout.tsx determina si el usuario tiene sesión.
+export default function IndexScreen() {
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator size="large" color="#1B3A6B" />
+    </View>
+  );
+}
+ 
+const styles = StyleSheet.create({
+  container: { flex:1, justifyContent:"center",
+               alignItems:"center", backgroundColor:"#F0F4FF" },
+});
+
+
+================================================
+ðŸ“„ ARCHIVO: src\app\_layout.tsx
+================================================
+
+import { useEffect } from "react";
+import { Stack }     from "expo-router";
+import { router }    from "expo-router";
+import { QueryProvider } from "@/core/providers/QueryProvider";
+import { useSession }    from "@/features/session/model/useSession";
+ 
+// Componente interno que maneja la redirección basada en auth.
+// Está dentro de QueryProvider para poder usar useSession.
+function AuthGuard() {
+  const { isAuthenticated, isLoading } = useSession();
+ 
+  useEffect(() => {
+    if (isLoading) return; // Esperar a que se cargue la sesión
+ 
+    if (isAuthenticated) {
+      // Usuario autenticado → ir a la pantalla principal
+      router.replace("/home");
+    } else {
+      // Sin sesión → ir al login
+      router.replace("/(auth)/login");
+    }
+  }, [isAuthenticated, isLoading]);
+ 
+  return null; // Este componente no renderiza nada, solo navega
+}
+ 
+export default function RootLayout() {
+  return (
+    <QueryProvider>
+      <Stack screenOptions={{ headerShown: false }}>
+        {/* Grupo de rutas de autenticación */}
+        <Stack.Screen name="(auth)" />
+        {/* Pantalla principal */}
+        <Stack.Screen name="home"  />
+        {/* Ruta índice: solo redirige, no muestra nada */}
+        <Stack.Screen name="index" />
+      </Stack>
+      <AuthGuard />
+    </QueryProvider>
+  );
+}
 
 
 ================================================
@@ -1632,7 +1592,7 @@ import { router }            from "expo-router";
 import { useForgotPassword } from "@/features/auth/model/useForgotPassword";
 import { Input }             from "@/shared/ui/Input";
 import { Button }            from "@/shared/ui/Button";
-import { theme }             from "@/app/styles/theme";
+import { theme }             from "@/core/styles/theme";
  
 export const ForgotPasswordPage = () => {
   const [email,   setEmail]   = useState("");
